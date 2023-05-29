@@ -1,11 +1,14 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../../Providers/AuthProvider";
+import { FaShoppingCart } from 'react-icons/fa';
+import useCart from "../../../hooks/useCart";
 
 
 const NavBar = () => {
 
     const { user, logOut } = useContext(AuthContext);
+    const [cart] = useCart();
     // console.log(user)
 
     const handleLogout = () => {
@@ -13,9 +16,17 @@ const NavBar = () => {
     }
 
     const navOptions = <>
-        <NavLink className="ms-5" to="/">HOME</NavLink>
-        <NavLink className="ms-5" to="/our-menu">OUR MENU</NavLink>
-        <NavLink className="ms-5" to="/order/salad">MY ORDER</NavLink>
+        <div className="flex items-center">
+            <NavLink className="ms-5" to="/">HOME</NavLink>
+            <NavLink className="ms-5" to="/our-menu">OUR MENU</NavLink>
+            <NavLink className="ms-5" to="/order/salad">MY ORDER</NavLink>
+            <NavLink className="ms-5" to="/dashboard/my-cart">
+                <button className="btn btn-sm gap-2">
+                    <FaShoppingCart />
+                    <div className="badge badge-secondary">+{cart?.length}</div>
+                </button>
+            </NavLink>
+        </div>
     </>;
 
     return (
