@@ -8,6 +8,8 @@ import Register from "../pages/Register/Register";
 import Dashboard from "../Layout/Dashboard";
 import MyCart from "../pages/DashBoard/MyCart/MyCart";
 import PaymentHistory from "../pages/DashBoard/PaymentHistory/PaymentHistory";
+import PrivateRoute from "./PrivateRoute";
+import AllUsers from "../pages/DashBoard/AllUsers/AllUsers";
 
 
 export const router = createBrowserRouter([
@@ -25,7 +27,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/order/:category",
-        element:<Order />
+        element:<PrivateRoute><Order /></PrivateRoute>
       },
       {
         path: "/login",
@@ -39,7 +41,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: <PrivateRoute><Dashboard /></PrivateRoute>,
     children: [
       {
         path: "my-cart",
@@ -48,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: "payment-history",
         element: <PaymentHistory />
+      },
+      {
+        path: "all-users",
+        element: <AllUsers />
       }
     ]
   }

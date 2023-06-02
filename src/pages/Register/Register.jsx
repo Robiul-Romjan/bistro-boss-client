@@ -1,13 +1,14 @@
 import Swal from 'sweetalert2'
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/others/authentication1.png";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
+import SocialSignIn from '../../components/SocialSignIn/SocialSignIn';
 
 
 const Register = () => {
 
-    const {createUser, updateUser} = useContext(AuthContext);
+    const { createUser, updateUser } = useContext(AuthContext);
     const navigate = useNavigate()
 
     const handleRegister = (e) => {
@@ -19,25 +20,39 @@ const Register = () => {
         const password = form.password.value;
 
         createUser(email, password)
-        .then(result => {
-            console.log(result.user)
+            .then(result => {
+                console.log(result.user)
 
-            updateUser(name, photo)
-            .then(()=> {console.log("update User Profile")})
-            .catch(error => console.log(error.message));
+                updateUser(name, photo)
+                    .then(() => {
+                        const saveUser = {name, email};
+                        fetch("http://localhost:5000/users", {
+                            method: "POST",
+                            headers: {
+                                "content-type": "application/json"
+                            },
+                            body: JSON.stringify(saveUser)
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.insertedId) {
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: 'You have successfully registered',
+                                        icon: 'success',
+                                        confirmButtonText: 'Ok'
+                                    });
 
-            Swal.fire({
-                title: 'Success!',
-                text: 'You have successfully registered',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-              });
-
-              navigate('/login')
-        })
-        .catch(error => {
-            console.log(error.message)
-        })
+                                    navigate('/login')
+                                }
+                            })
+                    })
+                    .catch(error => console.log(error.message));
+                    
+            })
+            .catch(error => {
+                console.log(error.message)
+            })
         form.reset();
     }
 
@@ -77,8 +92,10 @@ const Register = () => {
                         <div className="form-control mt-6">
                             <input className="btn btn-primary" type="submit" value="Sign Up" />
                         </div>
+                        
                         <Link to="/login">Have an Account? Please Login</Link>
                     </form>
+                    <SocialSignIn />
                 </div>
             </div>
         </div>
