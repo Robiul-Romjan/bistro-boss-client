@@ -28,10 +28,10 @@ const Dashboard = () => {
                                     <Link to="/dashboard/payment-history"><FaHome /> Admin Home</Link>
                                 </li>
                                 <li>
-                                    <Link to="/dashboard/payment-history"><FaUtensils /> Add Items</Link>
+                                    <Link to="/dashboard/add-item"><FaUtensils /> Add Items</Link>
                                 </li>
                                 <li>
-                                    <Link to="/dashboard/payment-history"><FaBars /> Manage Items</Link>
+                                    <Link to="/dashboard/manage-items"><FaBars /> Manage Items</Link>
                                 </li>
                                 <li>
                                     <Link to="/dashboard/payment-history"><FaBook /> Manage Bookings</Link>
